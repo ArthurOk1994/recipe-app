@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spicy Grilled Chicken Tacos</title>
+</head>
+<body>
+<h2 th:text="'List of all recipes'">List of all recipes</h2>
+<table>
+    <tr>
+        <td><b>ID</b></td>
+        <td><b>Description</b></td>
+    </tr>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe.id}">ID</td>
+        <td th:text="${recipe.description}">Description</td>
+    </tr>
+</table>
+</body>
+</html>
