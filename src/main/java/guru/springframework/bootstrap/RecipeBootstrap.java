@@ -4,13 +4,16 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -25,8 +28,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(getRecipe());
+        log.debug("Loading bootstrap data");
     }
 
     private List<Recipe> getRecipe(){
@@ -119,7 +124,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         // get guacamole notes
         Notes guacamoleNotes = new Notes();
-        guacamoleNotes.setNote("All you really need to make guacamole is ripe avocados and salt. " +
+        guacamoleNotes.setRecipeNote("All you really need to make guacamole is ripe avocados and salt. " +
                 "After that, a little lime or lemon juice—a splash of acidity—will help to balance the richness of the avocado. " +
                 "Then if you want, add chopped cilantro, chiles, onion, and/or tomato.\n" +
                 "Once you have basic guacamole down, feel free to experiment with variations including strawberries, " +
@@ -173,7 +178,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         // get tacos notes
         Notes tacosNotes = new Notes();
-        tacosNotes.setNote("We have a family motto and it is this: Everything goes better in a tortilla.\n" +
+        tacosNotes.setRecipeNote("We have a family motto and it is this: Everything goes better in a tortilla.\n" +
                 "Any and every kind of leftover can go inside a warm tortilla, usually with a healthy dose of pickled jalapenos. " +
                 "I can always sniff out a late-night snacker when the aroma of tortillas heating in a hot pan on the stove " +
                 "comes wafting through the house.\n" +
